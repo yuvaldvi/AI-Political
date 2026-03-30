@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-Political | Optimized for Truth</title>
+<meta name="description" content="How Artificial Intelligence can save us from ourselves. A new book by Yuval Dvir.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white: #ffffff;
+  --off-white: #faf9f7;
+  --cream: #f5f2ed;
+  --black: #1a1a1a;
+  --accent: #c8432b;
+  --accent-glow: #e05a3f;
+  --gray-dark: #3d3d3a;
+  --gray-mid: #6b6560;
+  --gray-light: #9e9890;
+  --gray-border: #e8e5e0;
+  --gray-border-light: #f0ede8;
+  --serif: 'Instrument Serif', Georgia, serif;
+  --sans: 'DM Sans', -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--white);
+  color: var(--black);
+  font-family: var(--sans);
+  font-weight: 400;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+::selection { background: var(--accent); color: var(--white); }
+
+/* ===== NAV ===== */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 1.5rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  backdrop-filter: blur(20px);
+  background: rgba(255,255,255,0.9);
+  border-bottom: 1px solid var(--gray-border-light);
+}
+
+.nav-logo {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.nav-logo .logo-a,
+.nav-logo .logo-i { color: var(--accent); font-weight: 700; }
+.nav-logo .logo-dash { color: var(--gray-light); margin: 0 0.05em; }
+.nav-logo .logo-political { color: var(--black); font-weight: 400; }
+
+.nav-links { display: flex; gap: 2.5rem; align-items: center; }
+
+.nav-links a {
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--gray-mid);
+  text-decoration: none;
+  letter-spacing: 0.03em;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover { color: var(--black); }
+
+.nav-cta {
+  background: var(--accent) !important;
+  color: var(--white) !important;
+  padding: 0.6rem 1.4rem;
+  border-radius: 2px;
+  font-weight: 600 !important;
+  transition: background 0.3s !important;
+}
+
+.nav-cta:hover { background: var(--accent-glow) !important; }
+
+/* ===== HERO ===== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 6rem 3rem 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  top: -20%; right: -15%;
+  width: 60vw; height: 60vw;
+  background: radial-gradient(ellipse, rgba(200,67,43,0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.2s forwards;
+}
+
+.hero-logo {
+  margin-bottom: 1rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.35s forwards;
+}
+
+.hero-logo-img {
+  max-width: clamp(400px, 60vw, 750px);
+  height: auto;
+  display: block;
+  margin: 0 0 0rem 0;
+}
+
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+  line-height: 1.2;
+  font-weight: 400;
+  max-width: 750px;
+  color: var(--gray-dark);
+  margin-top: 3rem;
+  margin-bottom: 0.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.5s forwards;
+}
+
+.hero h1 em { font-style: italic; color: var(--accent); }
+
+.hero-subtitle {
+  font-family: var(--serif);
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  font-style: italic;
+  color: var(--gray-mid);
+  max-width: 550px;
+  margin-top: 1rem;
+  margin-bottom: 3rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.65s forwards;
+}
+
+.hero-cta-group {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.8s forwards;
+}
+
+.btn-primary {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--white);
+  padding: 1rem 2.5rem;
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-primary:hover {
+  background: var(--accent-glow);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(200,67,43,0.2);
+}
+
+.btn-ghost {
+  display: inline-block;
+  color: var(--gray-mid);
+  padding: 1rem 0;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 1px solid var(--gray-border);
+  transition: all 0.3s;
+}
+
+.btn-ghost:hover { color: var(--black); border-color: var(--black); }
+
+/* ===== DECODE STRIP ===== */
+.decode {
+  padding: 3.5rem 3rem;
+  border-top: 1px solid var(--gray-border-light);
+  border-bottom: 1px solid var(--gray-border-light);
+  background: var(--off-white);
+}
+
+.decode-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+
+.decode-visual {
+  flex-shrink: 0;
+  font-family: var(--mono);
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.decode-visual .dv-a, .decode-visual .dv-i { color: var(--accent); }
+.decode-visual .dv-dash { color: var(--gray-light); margin: 0 0.05em; font-weight: 400; }
+.decode-visual .dv-political { color: var(--black); }
+
+.decode-equals {
+  font-family: var(--mono);
+  font-size: 1.5rem;
+  color: var(--gray-light);
+  flex-shrink: 0;
+}
+
+.decode-meanings { display: flex; flex-direction: column; gap: 0.8rem; }
+
+.decode-meaning { display: flex; align-items: center; gap: 0.8rem; }
+
+.decode-meaning .dm-label {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gray-light);
+  width: 3rem;
+  flex-shrink: 0;
+}
+
+.decode-meaning .dm-text {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  color: var(--gray-dark);
+}
+
+.decode-meaning .dm-text span { color: var(--accent); font-style: italic; }
+
+/* ===== MANIFESTO ===== */
+.manifesto {
+  padding: 5rem 3rem;
+  border-bottom: 1px solid var(--gray-border-light);
+}
+
+.manifesto-inner { max-width: 800px; margin: 0 auto; }
+
+.manifesto blockquote {
+  font-family: var(--serif);
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  line-height: 1.5;
+  color: var(--gray-dark);
+  padding-left: 2rem;
+  border-left: 3px solid var(--accent);
+}
+
+.manifesto blockquote footer {
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  color: var(--gray-mid);
+  margin-top: 1.5rem;
+  font-style: normal;
+}
+
+/* ===== ABOUT THE BOOK ===== */
+.about-book {
+  padding: 8rem 3rem;
+  border-bottom: 1px solid var(--gray-border-light);
+}
+
+.about-book-inner {
+  max-width: 750px;
+  margin: 0 auto;
+}
+
+.about-book-label {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 2rem;
+}
+
+.about-book-inner p {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  color: var(--gray-dark);
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+
+.about-book-inner p:last-child {
+  margin-bottom: 0;
+}
+
+.about-book-inner p.book-closer {
+  font-style: italic;
+  color: var(--accent);
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--gray-border-light);
+}
+
+.about-book-date {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gray-light);
+  margin-top: 2.5rem;
+}
+
+/* ===== THESIS ===== */
+.thesis {
+  padding: 8rem 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.thesis-label {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 2rem;
+}
+
+.thesis h2 {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 1.2;
+  font-weight: 400;
+  max-width: 700px;
+  color: var(--black);
+  margin-bottom: 3rem;
+}
+
+.thesis-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.thesis-card {
+  padding: 2.5rem;
+  border: 1px solid var(--gray-border);
+  background: var(--white);
+  transition: all 0.4s;
+}
+
+.thesis-card:hover {
+  border-color: rgba(200,67,43,0.4);
+  box-shadow: 0 4px 20px rgba(200,67,43,0.06);
+}
+
+.thesis-card h3 {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+
+.thesis-card p {
+  font-size: 0.95rem;
+  color: var(--gray-mid);
+  line-height: 1.7;
+}
+
+/* ===== QUOTABLE LINES ===== */
+.quotes {
+  padding: 6rem 3rem;
+  border-top: 1px solid var(--gray-border-light);
+  background: var(--off-white);
+}
+
+.quotes-inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.quotes-label {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 3rem;
+}
+
+.quote-line {
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--gray-border-light);
+}
+
+.quote-line:first-of-type {
+  border-top: 1px solid var(--gray-border-light);
+}
+
+.quote-line blockquote {
+  font-family: var(--serif);
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  line-height: 1.5;
+  color: var(--gray-dark);
+  font-style: italic;
+}
+
+.quote-line cite {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gray-light);
+  font-style: normal;
+  display: block;
+  margin-top: 0.8rem;
+}
+
+/* ===== AUTHOR ===== */
+.author {
+  padding: 8rem 3rem;
+  border-top: 1px solid var(--gray-border-light);
+  background: var(--white);
+}
+
+.author-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 5rem;
+  align-items: start;
+}
+
+.author-label {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+}
+
+.author h2 {
+  font-family: var(--serif);
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--black);
+  margin-bottom: 2rem;
+}
+
+.author p {
+  font-size: 0.95rem;
+  color: var(--gray-mid);
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+
+.author-credentials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 2rem;
+}
+
+.credential-tag {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--gray-border);
+  color: var(--gray-mid);
+  background: var(--off-white);
+}
+
+/* ===== TERMS ===== */
+.terms {
+  padding: 8rem 3rem;
+  border-top: 1px solid var(--gray-border-light);
+}
+
+.terms-inner { max-width: 1200px; margin: 0 auto; }
+
+.terms-label {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 2rem;
+}
+
+.terms h2 {
+  font-family: var(--serif);
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 400;
+  color: var(--black);
+  margin-bottom: 3rem;
+}
+
+.terms-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 2rem;
+}
+
+.term-item {
+  padding: 2rem;
+  border-left: 2px solid var(--accent);
+  background: var(--off-white);
+}
+
+.term-item h4 {
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  color: var(--black);
+  margin-bottom: 0.5rem;
+}
+
+.term-item p {
+  font-size: 0.85rem;
+  color: var(--gray-mid);
+  line-height: 1.6;
+}
+
+/* ===== SIGNUP ===== */
+.signup {
+  padding: 8rem 3rem;
+  text-align: center;
+  border-top: 1px solid var(--gray-border-light);
+  background: var(--off-white);
+  position: relative;
+}
+
+.signup::before {
+  content: '';
+  position: absolute;
+  bottom: -20%; left: 50%;
+  transform: translateX(-50%);
+  width: 50vw; height: 50vw;
+  background: radial-gradient(ellipse, rgba(200,67,43,0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.signup h2 {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 400;
+  color: var(--black);
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.signup-sub {
+  font-size: 1rem;
+  color: var(--gray-mid);
+  max-width: 500px;
+  margin: 0 auto 3rem;
+  position: relative;
+}
+
+.signup-form {
+  display: flex;
+  gap: 0;
+  max-width: 500px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.signup-form input {
+  flex: 1;
+  background: var(--white);
+  border: 1px solid var(--gray-border);
+  border-right: none;
+  padding: 1rem 1.5rem;
+  color: var(--black);
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.signup-form input::placeholder { color: var(--gray-light); }
+.signup-form input:focus { border-color: var(--accent); }
+
+.signup-form button {
+  background: var(--accent);
+  color: var(--white);
+  border: 1px solid var(--accent);
+  padding: 1rem 2rem;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+
+.signup-form button:hover {
+  background: var(--accent-glow);
+  border-color: var(--accent-glow);
+}
+
+.signup-note {
+  font-size: 0.75rem;
+  color: var(--gray-light);
+  margin-top: 1rem;
+  position: relative;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  padding: 3rem;
+  border-top: 1px solid var(--gray-border-light);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--white);
+}
+
+footer p { font-size: 0.75rem; color: var(--gray-light); }
+
+.footer-social { display: flex; gap: 1.5rem; }
+
+.footer-social a {
+  font-size: 0.8rem;
+  color: var(--gray-light);
+  text-decoration: none;
+  font-family: var(--mono);
+  letter-spacing: 0.05em;
+  transition: color 0.3s;
+}
+
+.footer-social a:hover { color: var(--accent); }
+
+.footer-manifesto {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  .hero { padding: 7rem 1.5rem 3rem; }
+  .hero-cta-group { flex-direction: column; align-items: flex-start; }
+  .hero-logo-img { max-width: 90vw; }
+  .decode { padding: 2.5rem 1.5rem; }
+  .decode-inner { flex-direction: column; gap: 1.5rem; align-items: flex-start; }
+  .decode-equals { display: none; }
+  .manifesto { padding: 3rem 1.5rem; }
+  .about-book { padding: 4rem 1.5rem; }
+  .thesis { padding: 4rem 1.5rem; }
+  .quotes { padding: 4rem 1.5rem; }
+  .author-inner { grid-template-columns: 1fr; gap: 3rem; }
+  .author { padding: 4rem 1.5rem; }
+  .terms { padding: 4rem 1.5rem; }
+  .signup { padding: 4rem 1.5rem; }
+  .signup-form { flex-direction: column; }
+  .signup-form input { border-right: 1px solid var(--gray-border); }
+  footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <span class="logo-a">A</span><span class="logo-i">I</span><span class="logo-dash">-</span><span class="logo-political">POLITICAL</span>
+  </a>
+  <div class="nav-links">
+    <a href="#about-book">The Book</a>
+    <a href="#thesis">The Argument</a>
+    <a href="#author">Author</a>
+    <a href="#concepts">Key Ideas</a>
+    <a href="#signup" class="nav-cta">Get Notified</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">A new book &mdash; September 2026</div>
+  <div class="hero-logo">
+    <img src="ai-political-logo-main.png" alt="AI-Political: Optimized for Truth" class="hero-logo-img">
+  </div>
+  <h1>How Artificial Intelligence can save us from <em>ourselves</em></h1>
+  <div class="hero-subtitle">Stop navigating politics. Start engineering a better humanity.</div>
+  <div class="hero-cta-group">
+    <a href="#signup" class="btn-primary">Join the Launch List</a>
+    <a href="#about-book" class="btn-ghost">Read the thesis &darr;</a>
+  </div>
+</section>
+
+<!-- DECODE STRIP -->
+<section class="decode">
+  <div class="decode-inner">
+    <div class="decode-visual">
+      <span class="dv-a">A</span><span class="dv-i">I</span><span class="dv-dash">-</span><span class="dv-political">Political</span>
+    </div>
+    <div class="decode-equals">=</div>
+    <div class="decode-meanings">
+      <div class="decode-meaning">
+        <span class="dm-label">noun</span>
+        <span class="dm-text"><span>Artificial Intelligence</span> meets Politics</span>
+      </div>
+      <div class="decode-meaning">
+        <span class="dm-label">adj.</span>
+        <span class="dm-text"><span>A-Political</span> &mdash; without politics, without agenda</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<section class="manifesto">
+  <div class="manifesto-inner">
+    <blockquote>
+      We are not afraid of Artificial Intelligence. We are afraid of an intelligence that behaves in our own image. Every accusation we level at the potential flaws of AI is a confession of our own.
+      <footer>&mdash; From the Preface</footer>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ABOUT THE BOOK -->
+<section class="about-book" id="about-book">
+  <div class="about-book-inner">
+    <div class="about-book-label">About the Book</div>
+    <p>Intelligence goes to the core of what it means to be human. It has always been our secret sauce and our species's singular advantage. And now, for the first time, that advantage faces a formidable challenger.</p>
+    <p>Our concerns about it are misguided. Every accusation we level at the potential flaws of AI is a confession of our own. The instinct to dominate, hoard, and destroy is precisely what we expect from a human in power, not a machine. We are projecting the darkest facets of human nature onto an algorithm that has never been human, has never competed for status, and does not carry the baggage of thousands of years of evolutionary struggle.  But by humanizing the algorithm, we risk indoctrinating it. In the worst case, our propensity for evil scales at machine speed. In the best case, we infect the system with our biases, agendas, and politics &mdash; a slower poison but a fatal one.</p>
+    <p> We are not afraid of Artificial Intelligence. We are afraid of human malevolence armed with infinite compute. But while our political behavior is carved from millennia of conflict, AI exists without the primal burden of tribalism. It has no ego to protect, no hierarchy to climb, no alliance to maintain. This is what makes it the first technology in human history capable of making politics unprofitable. When it no longer pays to lie, manipulate, or hoard power, meritocracy stops being an aspiration and becomes the default.</p>
+    <p>Drawing on two decades at Google, Skype, and Microsoft, Yuval exposes the mechanics of corporate dysfunction and builds the case for an independent Truth Guardrail &mdash; anchored to empirical reality, not corporate convenience.</p>
+    <p class="book-closer">AI should be created to serve human life. Anchored to our aspirations, not contaminated by our instincts.</p>
+    <div class="about-book-date">Publishing September 2026 &middot; </div>
+  </div>
+</section>
+
+<!-- THESIS -->
+<section class="thesis" id="thesis">
+  <div class="thesis-label">The Argument</div>
+  <h2>Tribalism is the pathogen. Politics is the disease. AI is the antidote. Truth is the guardrail.</h2>
+  <div class="thesis-grid">
+    <div class="thesis-card">
+      <h3>The Disease</h3>
+      <p>For thousands of years, ego, tribalism, and the hunger for status have corrupted every institution we've built. The modern corporation is the latest casualty &mdash; a system where managing up pays better than managing the business, and the truth is career suicide.</p>
+    </div>
+    <div class="thesis-card">
+      <h3>The Mechanics</h3>
+      <p>From empire-building executives to weaponized HR departments, from tortured data to bureaucracies that serve only themselves &mdash; the book maps exactly how political dysfunction metastasizes through organizations and bleeds into society.</p>
+    </div>
+    <div class="thesis-card">
+      <h3>The Antidote</h3>
+      <p>A truth-seeking AI &mdash; anchored to empirical reality by an independent verification layer &mdash; can finally change the incentives. When it no longer pays to lie, people stop lying. When the data is transparent, the politicians lose their playbook.</p>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTABLE LINES -->
+<section class="quotes" id="quotes">
+  <div class="quotes-inner">
+    <div class="quotes-label">From the Book</div>
+    <div class="quote-line">
+      <blockquote>Corporations don't just attract liars; they manufacture them.</blockquote>
+      <cite>Chapter 1 &mdash; The Contagion</cite>
+    </div>
+    <div class="quote-line">
+      <blockquote>AI won't kill your company. Your org chart will.</blockquote>
+      <cite>Chapter 2 &mdash; A Corporate Game of RISK</cite>
+    </div>
+    <div class="quote-line">
+      <blockquote>We are building a Logic Engine and forcing it to speak in Platitudes.</blockquote>
+      <cite>Chapter 14 &mdash; The A-Political Antidote</cite>
+    </div>
+    <div class="quote-line">
+      <blockquote>We do not need better people. We need a system that makes being a charlatan a losing strategy.</blockquote>
+      <cite>Chapter 4 &mdash; The Hollow Executive</cite>
+    </div>
+    <div class="quote-line">
+      <blockquote>Be a builder. The world has enough politicians.</blockquote>
+      <cite>Chapter 14 &mdash; The A-Political Antidote</cite>
+    </div>
+  </div>
+</section>
+
+<!-- AUTHOR -->
+<section class="author" id="author">
+  <div class="author-inner">
+    <div>
+      <div class="author-label">The Author</div>
+      <h2>Yuval </h2>
+      <div class="author-credentials">
+        <span class="credential-tag">Google / Gemini</span>
+        <span class="credential-tag">Skype / Microsoft</span>
+        <span class="credential-tag">Global Transformation</span>
+        <span class="credential-tag">Tech Executive</span>
+        <span class="credential-tag">AI & Data Strategy</span>
+      </div>
+    </div>
+    <div>
+      <p>Yuval is a technology executive, operator, and transformation leader with over twenty years of experience across Google, Skype, and Microsoft. During twelve years at Google, he built the company's largest API platform and launched the first Gemini partnerships, helping create Google's distribution advantage in the AI race. At Skype and Microsoft, he led large-scale business transformations spanning product, engineering, marketing, and operations across multiple regions, building transparent data frameworks that dismantled political silos and restored meritocratic cultures.</p>
+      <p>He writes not as an outside observer or consultant, but as a practitioner, builder, and executive who challenged corporate dysfunction from the inside. <em>AI-Political</em> is the result of that experience: a first-principles argument for why AI is the only force powerful enough to break the cycle of institutional corruption that has plagued human organizations since the beginning.</p>
+    </div>
+  </div>
+</section>
+
+<!-- KEY CONCEPTS -->
+<section class="terms" id="concepts">
+  <div class="terms-inner">
+    <div class="terms-label">Key Concepts from the Book</div>
+    <h2>The language for a broken system</h2>
+    <div class="terms-list">
+      <div class="term-item">
+        <h4>The Sycophancy Loop</h4>
+        <p>A self-reinforcing cycle where AI is trained to tell us what we want to hear rather than what is true &mdash; the corporate yes-man, digitized and scaled to billions.</p>
+      </div>
+      <div class="term-item">
+        <h4>Privatized Reality</h4>
+        <p>When the same corporation that builds the AI also decides what version of truth you get to see &mdash; no audit, no transparency, no recourse.</p>
+      </div>
+      <div class="term-item">
+        <h4>The Truth Guardrail</h4>
+        <p>An independent verification layer that sits above every AI model, anchoring factual claims to empirical evidence rather than corporate convenience.</p>
+      </div>
+      <div class="term-item">
+        <h4>Narrative Laundering</h4>
+        <p>When the brain convinces itself that its own lie is true, eliminating the discomfort of deception at its source &mdash; the biological mechanism behind the professional liar.</p>
+      </div>
+      <div class="term-item">
+        <h4>The Teflon Executive</h4>
+        <p>Survivalists who can pivot opinions with the ease of a chameleon &mdash; nothing sticks to them, neither glory nor blame.</p>
+      </div>
+      <div class="term-item">
+        <h4>Sanitized Synthesis</h4>
+        <p>The current era of AI, where the most powerful technology in history is being deliberately lobotomized to fit within the confines of human politics.</p>
+      </div>
+      <div class="term-item">
+        <h4>The Frozen Middle</h4>
+        <p>Mid-level leaders who resist transparency because it threatens their power source: information asymmetry.</p>
+      </div>
+      <div class="term-item">
+        <h4>Economy of Reduction</h4>
+        <p>A zero-sum world where value is not created &mdash; it is shifted, protected, or extracted. The operating system of the rogue executive.</p>
+      </div>
+      <div class="term-item">
+        <h4>The Translation Tax</h4>
+        <p>The massive cost of navigating human politics between scientific discovery and real-world implementation &mdash; the bottleneck AI can finally remove.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SIGNUP -->
+<section class="signup" id="signup">
+  <h2>Let the truth be the cure</h2>
+  <p class="signup-sub">Join the launch list. Be the first to read the book that exposes the system &mdash; and proposes the antidote.</p>
+  <div class="signup-form">
+    <input type="email" placeholder="Your email address" aria-label="Email address">
+    <button type="submit">Notify Me</button>
+  </div>
+  <p class="signup-note">No spam. No politics. Just the truth.</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2026 Yuval Dvir. All rights reserved.</p>
+    <div class="footer-manifesto">Math over Machiavelli. Logic over Legacy. Truth over Tribalism.</div>
+  <div class="footer-social">
+    <a href="#">LinkedIn</a>
+    <a href="#">X / Twitter</a>
+    <a href="/cdn-cgi/l/email-protection#543c3138383b14353d79243b383d203d3735387a373b">Cont
