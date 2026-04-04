@@ -899,12 +899,11 @@ footer p { font-size: 0.75rem; color: var(--gray-light); }
 <section class="signup" id="signup">
   <h2>Let the truth be the cure</h2>
   <p class="signup-sub">Join the launch list. Be the first to read the book that exposes the system &mdash; and proposes the antidote.</p>
-  <div class="signup-form">
-    <input type="email" placeholder="Your email address" aria-label="Email address">
-    <button type="submit">Notify Me</button>
-  </div>
-  <p class="signup-note">No spam. No politics. Just the truth.</p>
-</section>
+  <form class="signup-form" action="YOUR_BEEHIIV_URL_HERE" method="POST">
+  <input type="hidden" name="publication_id" value="YOUR_PUBLICATION_ID_HERE">
+  <input type="email" name="email" placeholder="Your email address" required>
+  <button type="submit">Notify Me</button>
+</form>
 
 <!-- FOOTER -->
 <footer>
