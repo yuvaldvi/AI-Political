@@ -167,6 +167,9 @@
     .signup-grid p { margin-left: auto !important; margin-right: auto !important; }
     .author-book { grid-template-columns: 1fr !important; justify-items: center; text-align: center; }
     .author-book p { margin-left: auto !important; margin-right: auto !important; }
+    .book-feature { text-align: center; justify-items: center; }
+    .book-feature .book-feature-rule { margin-left: auto !important; margin-right: auto !important; }
+    .book-feature .book-feature-cover > div { width: 230px !important; }
   }
 
   /* Fallback for browsers without container query support: still use viewport */
@@ -179,6 +182,9 @@
       border-top: 2px solid var(--accent) !important; }
     .post-card-img { order: -1 !important; min-height: 200px !important; }
     section { padding-left: 1.25rem !important; padding-right: 1.25rem !important; }
+    .book-feature { text-align: center; justify-items: center; }
+    .book-feature .book-feature-rule { margin-left: auto !important; margin-right: auto !important; }
+    .book-feature .book-feature-cover > div { width: 230px !important; }
   }
 </style>
 </head>
@@ -786,6 +792,7 @@ function EditorialDirection({ density = 'regular', accent = '#c8432b', heroHeadl
           <EdDecode />
           <EdManifesto pad={pad} />
           <EdAbout pad={pad} />
+          <EdBook pad={pad} />
           <EdThesis pad={pad} />
           <EdQuotes pad={pad} />
           <EdDialogue pad={pad} />
@@ -1686,6 +1693,53 @@ function EdAbout({ pad }) {
   );
 }
 
+// The book: cover plus Amy Edmondson's endorsement, set between the
+// summary (About) and the Argument. Alternates to --bg-2 against both.
+function EdBook({ pad }) {
+  return (
+    <section id="book" style={{
+      padding: `${pad} 2.5rem`,
+      background: 'var(--bg-2)',
+      borderBottom: '1px solid var(--rule-soft)',
+      position: 'relative', overflow: 'hidden',
+    }}>
+      <div className="book-feature" style={{
+        maxWidth: 1040, margin: '0 auto',
+        display: 'grid', gridTemplateColumns: 'minmax(0, .72fr) minmax(0, 1fr)',
+        gap: 'clamp(2.5rem, 6vw, 5.5rem)', alignItems: 'center',
+      }}>
+        <div className="book-feature-cover" style={{ display: 'flex', justifyContent: 'center' }}>
+          <BookCover width={290} />
+        </div>
+        <figure style={{ margin: 0, maxWidth: 560 }}>
+          <blockquote style={{
+            margin: 0,
+            fontFamily: 'var(--serif)', fontStyle: 'italic',
+            fontSize: 'clamp(1.2rem, 2vw, 1.55rem)',
+            lineHeight: 1.5, color: 'var(--ink-soft)',
+            textWrap: 'pretty',
+          }}>&ldquo;At once realistic (about human nature and the organizational flaws it creates) and hopeful about our potential to use AI to do better than our track record would suggest is plausible, Yuval Dvir examines the fragile window of opportunity today&rsquo;s leaders confront. Exquisitely well written, this book opens many important conversations about the future of management.&rdquo;</blockquote>
+          <figcaption style={{ marginTop: '1.6rem' }}>
+            <div className="book-feature-rule" style={{
+              width: 28, height: 2, background: 'var(--accent)',
+              margin: '0 0 1rem',
+            }} />
+            <div style={{
+              fontFamily: 'var(--sans)', fontWeight: 600, fontSize: '.92rem',
+              color: 'var(--ink)', letterSpacing: '.01em',
+            }}>Amy Edmondson</div>
+            <div style={{
+              fontFamily: 'var(--mono)', fontSize: '.66rem',
+              letterSpacing: '.06em', color: 'var(--ink-mid)',
+              marginTop: '.35rem', lineHeight: 1.6,
+            }}>Novartis Professor of Leadership and Management, Harvard Business School</div>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+  );
+}
+
 function EdThesis({ pad }) {
   return (
     <section id="thesis" style={{ padding: `${pad} 2.5rem`, maxWidth: 1200, margin: '0 auto' }}>
@@ -2060,43 +2114,7 @@ function EdSignup({ pad }) {
       borderTop: '1px solid var(--rule-soft)',
       background: 'var(--bg-2)', position: 'relative', overflow: 'hidden',
     }}>
-      {/* Endorsement, set above the cover and signup copy */}
-      <figure style={{
-        maxWidth: 760, margin: '0 auto clamp(3rem, 6vw, 4.5rem)',
-        padding: '0 0 clamp(2.4rem, 4.5vw, 3.2rem)',
-        borderBottom: '1px solid var(--rule)', textAlign: 'center',
-      }}>
-        <blockquote style={{
-          margin: 0,
-          fontFamily: 'var(--serif)', fontStyle: 'italic',
-          fontSize: 'clamp(1.2rem, 2vw, 1.55rem)',
-          lineHeight: 1.5, color: 'var(--ink-soft)',
-          textWrap: 'pretty',
-        }}>&ldquo;At once realistic (about human nature and the organizational flaws it creates) and hopeful about our potential to use AI to do better than our track record would suggest is plausible, Yuval Dvir examines the fragile window of opportunity today&rsquo;s leaders confront. Exquisitely well written, this book opens many important conversations about the future of management.&rdquo;</blockquote>
-        <figcaption style={{ marginTop: '1.6rem' }}>
-          <div style={{
-            width: 28, height: 2, background: 'var(--accent)',
-            margin: '0 auto 1rem',
-          }} />
-          <div style={{
-            fontFamily: 'var(--sans)', fontWeight: 600, fontSize: '.92rem',
-            color: 'var(--ink)', letterSpacing: '.01em',
-          }}>Amy Edmondson</div>
-          <div style={{
-            fontFamily: 'var(--mono)', fontSize: '.66rem',
-            letterSpacing: '.06em', color: 'var(--ink-mid)',
-            marginTop: '.35rem', lineHeight: 1.6,
-          }}>Novartis Professor of Leadership and Management, Harvard Business School</div>
-        </figcaption>
-      </figure>
-      <div className="signup-grid" style={{
-        maxWidth: 1080, margin: '0 auto',
-        display: 'grid', gridTemplateColumns: 'minmax(0, .78fr) minmax(0, 1fr)',
-        gap: 'clamp(2.5rem, 6vw, 5.5rem)', alignItems: 'center',
-      }}>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <BookCover width={300} />
-        </div>
+      <div style={{ maxWidth: 640, margin: '0 auto', textAlign: 'center' }}>
         <div>
           <div style={{
             fontFamily: 'var(--mono)', fontSize: '.7rem', letterSpacing: '.24em',
@@ -2109,7 +2127,7 @@ function EdSignup({ pad }) {
           }}>Let the truth be the cure.</h2>
           <p style={{
             fontSize: '1rem', color: 'var(--ink-mid)',
-            maxWidth: 480, margin: '0 0 2.4rem', lineHeight: 1.6,
+            maxWidth: 480, margin: '0 auto 2.4rem', lineHeight: 1.6,
           }}>Join the launch list. Be the first to read the book that exposes the system - and proposes the antidote.</p>
           <SignupForm />
         </div>
