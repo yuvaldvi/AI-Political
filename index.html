@@ -367,7 +367,7 @@ const CONTENT = {
       subhead: 'Why this keeps happening.',
       items: [
         { k: 'The Pattern', v: 'Customer-service chatbots are quietly re-staffed with humans. Drive-thru AI pilots are shuttered. Government AI rollouts stall in procurement. McKinsey, Gartner, and MIT all report the same outcome with different numbers: the majority of AI initiatives never reach meaningful production value.' },
-        { k: 'The Misdiagnosis', v: 'The default response has been to prescribe culture change, upskilling, or \u201Cchange management.\u201D These prescriptions miss the actual constraint: organizations are still designed around human political behavior \u2014 status, approval chains, narrative control, and empire protection. AI does not dissolve these dynamics. It exposes and amplifies them.' },
+        { k: 'The Misdiagnosis', v: 'The default response has been to prescribe culture change, upskilling, or \u201Cchange management.\u201D These prescriptions miss the actual constraint: organizations are still designed around human political behavior, status, approval chains, narrative control, and empire protection. AI does not dissolve these dynamics. It exposes and amplifies them.' },
         { k: 'The Real Constraint', v: 'Approval bottlenecks. Data hoarding. Blame avoidance. Empire-building disguised as governance. These are not implementation frictions - they are features of systems built for human coordination, not intelligence at scale. AI makes the cost of these features impossible to ignore.' },
       ],
     },
@@ -376,7 +376,7 @@ const CONTENT = {
       subhead: 'What actually needs to change.',
       items: [
         { k: 'Redesign the Human Systems', v: 'Stop bolting AI onto existing hierarchies. Rebuild the org chart around the work AI can now perform. Move from control-based structures to orchestration-based systems.' },
-        { k: 'Build Truth Infrastructure', v: 'Add structural mechanisms that make truth cheaper than politics. A Truth Guardrail that verifies claims against verifiable sources. A Truth Ledger that records and distributes outcomes. These are not cultural initiatives \u2014 they are operating-system upgrades.' },
+        { k: 'Build Truth Infrastructure', v: 'Add structural mechanisms that make truth cheaper than politics. A Truth Guardrail that verifies claims against verifiable sources. A Truth Ledger that records and distributes outcomes. These are not cultural initiatives, they are operating-system upgrades.' },
         { k: 'Reward the New Capabilities', v: 'Stop promoting empire-builders and deep specialists by default. Elevate the Cross-Domain Orchestrator - the people who can integrate across functions, humans, and agents. What gets measured and rewarded will determine whether AI reduces or entrenches organizational politics.' },
       ],
     },
@@ -2060,6 +2060,35 @@ function EdSignup({ pad }) {
       borderTop: '1px solid var(--rule-soft)',
       background: 'var(--bg-2)', position: 'relative', overflow: 'hidden',
     }}>
+      {/* Endorsement, set above the cover and signup copy */}
+      <figure style={{
+        maxWidth: 760, margin: '0 auto clamp(3rem, 6vw, 4.5rem)',
+        padding: '0 0 clamp(2.4rem, 4.5vw, 3.2rem)',
+        borderBottom: '1px solid var(--rule)', textAlign: 'center',
+      }}>
+        <blockquote style={{
+          margin: 0,
+          fontFamily: 'var(--serif)', fontStyle: 'italic',
+          fontSize: 'clamp(1.2rem, 2vw, 1.55rem)',
+          lineHeight: 1.5, color: 'var(--ink-soft)',
+          textWrap: 'pretty',
+        }}>&ldquo;At once realistic (about human nature and the organizational flaws it creates) and hopeful about our potential to use AI to do better than our track record would suggest is plausible, Yuval Dvir examines the fragile window of opportunity today&rsquo;s leaders confront. Exquisitely well written, this book opens many important conversations about the future of management.&rdquo;</blockquote>
+        <figcaption style={{ marginTop: '1.6rem' }}>
+          <div style={{
+            width: 28, height: 2, background: 'var(--accent)',
+            margin: '0 auto 1rem',
+          }} />
+          <div style={{
+            fontFamily: 'var(--sans)', fontWeight: 600, fontSize: '.92rem',
+            color: 'var(--ink)', letterSpacing: '.01em',
+          }}>Amy Edmondson</div>
+          <div style={{
+            fontFamily: 'var(--mono)', fontSize: '.66rem',
+            letterSpacing: '.06em', color: 'var(--ink-mid)',
+            marginTop: '.35rem', lineHeight: 1.6,
+          }}>Novartis Professor of Leadership and Management, Harvard Business School</div>
+        </figcaption>
+      </figure>
       <div className="signup-grid" style={{
         maxWidth: 1080, margin: '0 auto',
         display: 'grid', gridTemplateColumns: 'minmax(0, .78fr) minmax(0, 1fr)',
@@ -4974,8 +5003,10 @@ function IntroVideo({ contained = false }) {
   const boxRef = React.useRef(null);
 
   // Measure the overlay's own box rather than the viewport, so the portrait
-  // treatment is also correct inside the iPhone preview frame.
-  React.useEffect(() => {
+  // treatment is also correct inside the iPhone preview frame. Layout effect,
+  // so a portrait phone gets the portrait layout on the very first paint
+  // (no 16:9 box jumping into place after the poster has appeared).
+  React.useLayoutEffect(() => {
     const el = boxRef.current;
     if (!el) return;
     const measure = () => {
@@ -5022,9 +5053,18 @@ function IntroVideo({ contained = false }) {
     return () => clearTimeout(id);
   }, [state]);
 
+  // React sets `muted` only as a DOM property, never as the HTML attribute
+  // (facebook/react#10389). Set both before any play attempt so iOS Safari
+  // always treats this as muted, inline autoplay.
+  React.useLayoutEffect(() => {
+    const v = videoRef.current;
+    if (v) { v.defaultMuted = true; v.muted = true; }
+  }, []);
+
   const attemptPlay = React.useCallback(() => {
     const v = videoRef.current;
     if (!v) return;
+    v.muted = true;
     const p = v.play();
     if (p && p.then) p.then(() => setNeedsTap(false)).catch(() => setNeedsTap(true));
   }, []);
