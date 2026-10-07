@@ -2248,6 +2248,8 @@ function SignupForm() {
   const hostRef = React.useRef(null);
   React.useEffect(() => {
     if (!hostRef.current) return;
+    // Popup on desktop only; phones use the inline forms (InlineSubscribe).
+    if (!window.matchMedia('(min-width: 768px)').matches) return;
     // Avoid double-loading
     if (document.querySelector('script[src*="subscribe-forms.beehiiv.com/v3/loader.js"]')) {
       return;
