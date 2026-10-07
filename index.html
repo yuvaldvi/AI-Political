@@ -857,7 +857,7 @@ function EdNav({ page = 'home' }) {
             background: 'var(--accent)', color: '#fff', padding: '.55rem 1.2rem',
             borderRadius: 2, fontWeight: 600, fontSize: '.82rem',
             textDecoration: 'none', letterSpacing: '.02em',
-          }}>Get Notified</a>
+          }}>Subscribe</a>
         <button
           className="nav-burger"
           aria-label={open ? 'Close menu' : 'Open menu'}
@@ -985,15 +985,14 @@ function EdHero({ pad, variant = 'promise' }) {
           </div>
         )}
 
-        <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
-          <a
-            href="#signup"
-            onClick={e => { e.preventDefault(); scrollToSection('signup'); }}
-            style={{
-              background: 'var(--accent)', color: '#fff',
-              padding: '.95rem 2.2rem', fontSize: '.92rem', fontWeight: 600,
-              letterSpacing: '.02em', textDecoration: 'none',
-            }}>Get notified</a>
+        <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-end', flexWrap: 'wrap' }}>
+          <div style={{ flex: '1 1 300px', maxWidth: 440 }}>
+            <div data-subscribe-label style={{
+              fontFamily: 'var(--mono)', fontSize: '.7rem', letterSpacing: '.18em',
+              textTransform: 'uppercase', color: 'var(--ink-mid)', marginBottom: '.7rem',
+            }}>Get the AI-Political newsletter</div>
+            <InlineSubscribe />
+          </div>
           <a
             href="#thesis"
             onClick={e => { e.preventDefault(); scrollToSection('thesis'); }}
@@ -2173,6 +2172,76 @@ function BookCover({ width = 300, angled = true }) {
   );
 }
 
+// Inline subscribe field: the same Beehiiv form (e3199010) in its "slim"
+// layout (email field + Subscribe button only), rendered in place instead of
+// waiting for the scroll popup. Speaks the iframe protocol the Beehiiv v3
+// loader uses: handshake, auto height, HUMAN challenge, success, redirect.
+const BEEHIIV_FORM_ID = 'e3199010-0333-47c2-88db-99080044d8ea';
+const BEEHIIV_PUB_ID = '244f8940-27ff-473a-ad07-bbdd24987524';
+const BEEHIIV_ORIGIN = 'https://subscribe-forms.beehiiv.com';
+function InlineSubscribe() {
+  const ref = React.useRef(null);
+  const [h, setH] = React.useState(48);
+  const [done, setDone] = React.useState(false);
+  const src = React.useMemo(() => {
+    const u = new URL(BEEHIIV_ORIGIN + '/v3/forms/' + BEEHIIV_FORM_ID);
+    u.searchParams.set('layout', 'slim');
+    try {
+      const q = new URLSearchParams(window.location.search);
+      ['source', 'medium', 'campaign'].forEach(k => { const v = q.get('utm_' + k); if (v) u.searchParams.set('utm_' + k, v); });
+    } catch (e) {}
+    u.searchParams.set('referrer', encodeURIComponent(window.location.href));
+    return u.href;
+  }, []);
+  React.useEffect(() => {
+    let loaded = false;
+    // If the form never reports in (e.g. a bot-check page), give it room.
+    const fallback = setTimeout(() => { if (!loaded) setH(350); }, 5000);
+    const onMsg = e => {
+      const f = ref.current;
+      if (!f || e.source !== f.contentWindow || e.origin !== BEEHIIV_ORIGIN) return;
+      const m = e.data || {};
+      const px = v => { const n = parseInt(v, 10); return n > 0 ? n : null; };
+      if (m.type === 'beehiiv:child-loaded') {
+        loaded = true; clearTimeout(fallback);
+        f.contentWindow.postMessage({ type: 'beehiiv:parent-loaded', payload: { handlesRedirect: true } }, '*');
+      } else if (m.type === 'beehiiv:styles' || m.type === 'beehiiv:challenge') {
+        const n = m.payload && px(m.payload.height); if (n) setH(n);
+      } else if (m.type === 'beehiiv:challenge-resolved') {
+        f.contentWindow.postMessage({ type: 'beehiiv:resize' }, '*');
+      } else if (m.type === 'beehiiv:submitted') {
+        // Same cookie the Beehiiv loader checks, so the popup stays away.
+        const d = new Date(Date.now() + 365 * 864e5);
+        document.cookie = 'bhv_' + BEEHIIV_PUB_ID + '_subscribed=' + Date.now() + '; expires=' + d.toUTCString() + '; path=/';
+        setDone(true);
+      } else if (m.type === 'beehiiv:success-toast') {
+        setDone(true);
+      } else if (m.type === 'beehiiv:redirect' && m.url) {
+        window.location.href = m.url;
+      }
+    };
+    window.addEventListener('message', onMsg);
+    return () => { clearTimeout(fallback); window.removeEventListener('message', onMsg); };
+  }, []);
+  if (done) {
+    return (
+      <p role="status" style={{
+        margin: 0, padding: '.8rem 0', fontSize: '1rem', lineHeight: 1.5,
+        color: 'var(--ink)', fontFamily: 'var(--sans)',
+      }}>Success! Now check your email to confirm your subscription.</p>
+    );
+  }
+  return (
+    <iframe
+      ref={ref}
+      src={src}
+      title="Subscribe to the AI-Political newsletter"
+      scrolling="no"
+      style={{ display: 'block', width: '100%', maxWidth: 440, height: h, border: 0, background: 'transparent' }}
+    />
+  );
+}
+
 function SignupForm() {
   // Beehiiv official loader injects the form into [data-beehiiv-form] containers.
   // We render the script tag once when the component mounts.
@@ -2192,19 +2261,8 @@ function SignupForm() {
   return (
     <div style={{ maxWidth: 480, margin: '0 auto' }} ref={hostRef}>
       <div data-beehiiv-form="e3199010-0333-47c2-88db-99080044d8ea"></div>
-      <div style={{ marginTop: '1.4rem', display: 'flex', justifyContent: 'center' }}>
-        <a
-          href="https://subscribe-forms.beehiiv.com/e3199010-0333-47c2-88db-99080044d8ea"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            background: 'var(--accent)', color: '#fff',
-            padding: '.9rem 1.8rem', fontSize: '.82rem', fontWeight: 600,
-            letterSpacing: '.08em', textTransform: 'uppercase',
-            textDecoration: 'none', fontFamily: 'var(--sans)',
-            display: 'inline-block',
-          }}
-        >Join the list</a>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <InlineSubscribe />
       </div>
     </div>
   );
