@@ -228,7 +228,7 @@
 // components/shared.jsx - content + small shared bits
 
 const CONTENT = {
-  pubDate: 'September 2026',
+  pubDate: 'October 2026',
   navLinks: [
     { href: '#about', label: 'The Book' },
     { href: '#thesis', label: 'The Argument' },
@@ -237,7 +237,7 @@ const CONTENT = {
     { href: '#author', label: 'Author' },
   ],
   hero: {
-    eyebrow: 'A new book - September 2026',
+    eyebrow: 'A new book - October 2026',
     headline: ['The Real Danger', 'in AI', "Isn't Artificial"],
     sub: 'The safest AI is not the one that becomes more human, but the one kept structurally different from us: truth-seeking and apolitical.\n\nHumans carry both the tyrant and the saint, and they share the same brain. We have long aspired to build systems that are apolitical, merit-based, and truth-seeking, yet we have consistently fallen short, partly because of our biological wiring. We may never fully reach these ideals ourselves, but a well-built AI is the first realistic chance to move meaningfully closer to them.',
   },
@@ -1488,7 +1488,7 @@ function EdWhyNowTeaser() {
           padding: '1.1rem 2rem', fontSize: '.86rem',
           fontWeight: 600, letterSpacing: '.02em',
           textDecoration: 'none', whiteSpace: 'nowrap',
-        }}>Read &amp; engage &rarr;</a>
+        }}>Read & engage &rarr;</a>
       </div>
     </section>
   );
@@ -2008,7 +2008,7 @@ function EdAuthorPage({ pad }) {
             <div style={{
               fontFamily: 'var(--mono)', fontSize: '.66rem', letterSpacing: '.22em',
               textTransform: 'uppercase', color: 'var(--accent)', marginBottom: '1.1rem',
-            }}>The Book · September 2026</div>
+            }}>The Book · October 2026</div>
             <h3 style={{
               fontFamily: 'var(--serif)', fontWeight: 400,
               fontSize: 'clamp(1.5rem, 2.6vw, 2.2rem)', lineHeight: 1.2,
@@ -2118,7 +2118,7 @@ function EdSignup({ pad }) {
           <div style={{
             fontFamily: 'var(--mono)', fontSize: '.7rem', letterSpacing: '.24em',
             textTransform: 'uppercase', color: 'var(--accent)', marginBottom: '1.4rem',
-          }}>The book · September 2026</div>
+          }}>The book · October 2026</div>
           <h2 style={{
             fontFamily: 'var(--serif)', fontWeight: 400,
             fontSize: 'clamp(2rem, 4vw, 3.2rem)',
@@ -2692,8 +2692,8 @@ function stripHtml(s, max = 220) {
     .replace(/<style[\s\S]*?<\/style>/gi, '')
     .replace(/<script[\s\S]*?<\/script>/gi, '')
     .replace(/<[^>]+>/g, ' ')
-    .replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&')
-    .replace(/&#39;|&apos;/g, "'").replace(/&quot;/g, '"')
+    .replace(/&nbsp;/g, ' ').replace(/&/g, '&')
+    .replace(/&#39;|'/g, "'").replace(/"/g, '"')
     .replace(/&mdash;/g, ' - ').replace(/&ndash;/g, '-').replace(/&hellip;/g, '\u2026')
     .replace(/\s+/g, ' ').trim();
   if (text.length <= max) return text;
@@ -4262,7 +4262,7 @@ function LdFooter() {
     }}>
       <p style={{ margin: 0 }}>© 2026 yuval_dvir</p>
       <div style={{ color: 'var(--accent)', textAlign: 'center' }}>
-        math &gt; machiavelli · logic &gt; legacy · truth &gt; tribalism
+        math > machiavelli · logic > legacy · truth > tribalism
       </div>
       <div style={{ display: 'flex', gap: '1.4rem', justifyContent: 'flex-end' }}>
         <a href="https://www.linkedin.com/company/ai-political" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>./linkedin</a>
