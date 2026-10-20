@@ -1488,7 +1488,7 @@ function EdWhyNowTeaser() {
           padding: '1.1rem 2rem', fontSize: '.86rem',
           fontWeight: 600, letterSpacing: '.02em',
           textDecoration: 'none', whiteSpace: 'nowrap',
-        }}>Read & engage &rarr;</a>
+        }}>Read &amp; engage &rarr;</a>
       </div>
     </section>
   );
@@ -2692,8 +2692,8 @@ function stripHtml(s, max = 220) {
     .replace(/<style[\s\S]*?<\/style>/gi, '')
     .replace(/<script[\s\S]*?<\/script>/gi, '')
     .replace(/<[^>]+>/g, ' ')
-    .replace(/&nbsp;/g, ' ').replace(/&/g, '&')
-    .replace(/&#39;|'/g, "'").replace(/"/g, '"')
+    .replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&')
+    .replace(/&#39;|&apos;/g, "'").replace(/&quot;/g, '"')
     .replace(/&mdash;/g, ' - ').replace(/&ndash;/g, '-').replace(/&hellip;/g, '\u2026')
     .replace(/\s+/g, ' ').trim();
   if (text.length <= max) return text;
@@ -4262,7 +4262,7 @@ function LdFooter() {
     }}>
       <p style={{ margin: 0 }}>© 2026 yuval_dvir</p>
       <div style={{ color: 'var(--accent)', textAlign: 'center' }}>
-        math > machiavelli · logic > legacy · truth > tribalism
+        math &gt; machiavelli · logic &gt; legacy · truth &gt; tribalism
       </div>
       <div style={{ display: 'flex', gap: '1.4rem', justifyContent: 'flex-end' }}>
         <a href="https://www.linkedin.com/company/ai-political" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>./linkedin</a>
