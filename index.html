@@ -1500,7 +1500,7 @@ function EdWhyNowTeaser() {
           padding: '1.1rem 2rem', fontSize: '.86rem',
           fontWeight: 600, letterSpacing: '.02em',
           textDecoration: 'none', whiteSpace: 'nowrap',
-        }}>Read & engage &rarr;</a>
+        }}>Read &amp; engage &rarr;</a>
       </div>
     </section>
   );
@@ -2731,7 +2731,7 @@ function stripHtml(s, max = 220) {
     .replace(/<style[\s\S]*?<\/style>/gi, '')
     .replace(/<script[\s\S]*?<\/script>/gi, '')
     .replace(/<[^>]+>/g, ' ')
-    .replace(/&nbsp;/g, ' ').replace(/&/g, '&')
+    .replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&')
     .replace(/&#39;|'/g, "'").replace(/"/g, '"')
     .replace(/&mdash;/g, ' - ').replace(/&ndash;/g, '-').replace(/&hellip;/g, '\u2026')
     .replace(/\s+/g, ' ').trim();
